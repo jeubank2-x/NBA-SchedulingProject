@@ -5,13 +5,7 @@ It analyzes schedule congestion (such as 4-in-6 stretches), travel patterns, and
 and builds a logistic regression model to estimate how schedule factors impact win probability.
 
 All data and results are anonymized for demonstration purposes.
-
-## Files
-
-- **project.Rmd** – Main R Markdown file containing all code, analysis, and visualizations  
-- **data/** – Folder containing schedule and game data (CSV files)  
-- **nba_logo.svg** – NBA logo used for the HTML output header  
-- **README.md** – Project overview and instructions  
+ 
 
 ## Tools & Libraries
 - R, Tidyverse, ggplot2, plotly  
