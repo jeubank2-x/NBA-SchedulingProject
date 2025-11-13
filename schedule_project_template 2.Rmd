@@ -46,69 +46,29 @@ htmltools::img(src = 'https://cdn.nba.com/logos/nba/1610612760/primary/L/logo.sv
 
 # Introduction  
 
-The purpose of this project is to gauge your technical skills and problem solving ability by working through something similar to a real NBA data science project. You will work your way through this R Markdown document, answering questions as you go along. Please begin by adding your name to the "author" key in the YAML header. When you're finished with the document, come back and type your answers into the answer key at the top. Please leave all your work below and have your answers where indicated below as well. Please note that we will be reviewing your code so make it clear, concise, and **avoid long printouts.** Feel free to add in as many new code chunks as you'd like.
-
-Remember that we will be grading the quality of your code and visuals alongside the correctness of your answers. Please try to use the tidyverse as much as possible (instead of base R and explicit loops). Please do not bring in any outside data, and use the provided data as truth (for example, some "home" games have been played at secondary locations, including TOR's entire 2020-21 season. These are not reflected in the data and you do not need to account for this.) Note that the OKC and DEN 2024-25 schedules in `schedule_24_partial.csv` intentionally include only 80 games, as the league holds 2 games out for each team in the middle of December due to unknown NBA Cup matchups. Do not assign specific games to fill those two slots.      
+The purpose of this project is to analyze how professional basketball team schedules influence performance. Using data from recent seasons, it explores how schedule congestion, travel demands, and home/away balance affect teams over time. All analysis was completed using tidyverse, ggplot2, and plotly. The provided data was used as truth (for example, some "home" games have been played at secondary locations, including TOR's entire 2020-21 season. These are not reflected in the data, so it is not accounted for) Note that the 2024-25 schedules in `schedule_24_partial.csv` intentionally include only 80 games, as the league holds 2 games out for each team in the middle of December due to unknown NBA Cup matchups.    
 
 **Note:**    
-
 **Throughout this document, any `season` column represents the year each season started. For example, the 2015-16 season will be in the dataset as 2015. We may refer to a season by just this number (e.g. 2015) instead of the full text (e.g. 2015-16).**   
 
-<h1 class="red-header">Answers</h1>  
-
-## Part 1      
-
-**Question 1:** 26 4-in-6 stretches in OKC's draft schedule.   
-
-**Question 2:** 25.1 4-in-6 stretches on average.  
-
-**Question 3:**    
-
-- Most 4-in-6 stretches on average: CHA (28.1)     
-- Fewest 4-in-6 stretches on average: NYK (22.2)        
-
-**Question 4:** This is a written question. Please leave your response in the document under Question 4.          
-
-**Question 5:**   
-
-- BKN Defensive eFG%: 54.5%  
-- When opponent on a B2B: 53.6%    
-
-## Part 2  
-
-Please show your work in the document, you don't need anything here.     
-
-## Part 3    
- 
-**Question 9:**    
-
-- Most Helped by Schedule: MIL (260 wins)     
-- Most Hurt by Schedule: DET (94 wins)     
 
 # Setup and Data    
 
 ```{r load data, message = F, warning = F}
 library(tidyverse)
-# Note, you will likely have to change these paths. If your data is in the same folder as this project, 
-# the paths will likely be fixed for you by deleting ../../Data/schedule_project/ from each string.
 schedule <- read_csv("~/Downloads/schedule.csv")
 draft_schedule <- read_csv("~/Downloads/schedule_24_partial.csv")
 locations <- read_csv("~/Downloads/locations.csv")
 game_data <- read_csv("~/Downloads/team_game_data.csv")
 ```
 
-## Part 1 -- Schedule Analysis               
+## Part 1 -- Schedule Congestion Analysis               
 
-In this section, you're going to work to answer questions using NBA scheduling data.   
 
-### Question 1  
-
-**QUESTION:** How many times are the Thunder scheduled to play 4 games in 6 nights in the provided 80-game draft of the 2024-25 season schedule? (Note: clarification, the stretches can overlap, the question is really “How many games are the 4th game played over the past 6 nights?”)     
-  
+#The first step identifies periods where your selected team plays four games in six nights. (Note: The stretches can overlap)     
+#OKC is team chosen, any team can be inserted. Apply to 2024-25 schedule.
 
 ```{r}
-# Here and for all future questions, feel free to add as many code chunks as you like. Do NOT put echo = F though, we'll want to see your code.
-library(tidyverse)
 draft_schedule_OKC <- draft_schedule %>%
   filter(team == "OKC")
 
@@ -127,14 +87,9 @@ res
 nrow(res)
 
 ```
+## Part 2    
 
-<span style="color:red">**ANSWER 1:**</span>  
-
-26 4-in-6 stretches in OKC's draft schedule.   
-
-### Question 2     
-
-**QUESTION:** From 2014-15 to 2023-24, what is the average number of 4-in-6 stretches for a team in a season? Adjust each team/season to per-82 games before taking your final average.   
+#Apply to find historical four in six averages 
   
 
 ```{r}
@@ -152,13 +107,7 @@ overall_avg_q2
 
 ```
 
-<span style="color:red">**ANSWER 2:**</span>  
-
-25.1 4-in-6 stretches on average.  
-
-### Question 3  
-
-**QUESTION:** Which of the 30 NBA teams has had the highest average number of 4-in-6 stretches between 2014-15 and 2023-24? Which team has had the lowest average? Adjust each team/season to per-82 games.     
+#Locate highest average number of 4-in-6 stretches between 2014-15 and 2023-24. Identify which team has had the highest and lowest average.
 
 
 ```{r}
@@ -185,75 +134,17 @@ lowest
 
 
 
-```
+``` 
+  
 
-<span style="color:red">**ANSWER 3:**</span>  
-
-- Most 4-in-6 stretches on average: CHA (28.1)     
-- Fewest 4-in-6 stretches on average: NYK (22.2)        
-
-
-### Question 4  
-
-**QUESTION:** Is the difference between most and least from Q3 surprising, or do you expect that size difference is likely to be the result of chance?    
-
-The difference between the most CHA (28.1) and least NYK(22.2) is nearly 6 stretches per 82 games. This difference is likely the result of chance, since it is fairly small compared to the amount of teams in the league and the 10 seasons considered.
-
-<span style="color:red">**ANSWER 4:**</span>    
+The difference between the most CHA (28.1) and least NYK(22.2) is nearly 6 stretches per 82 games. This difference is likely the result of chance since it is fairly small compared to the amount of teams in the league and the 10 seasons considered.
+  
 
 
-### Question 5   
-
-**QUESTION:** What was BKN's defensive eFG% in the 2023-24 season? What was their defensive eFG% that season in situations where their opponent was on the second night of back-to-back?  
+## Part 3 -- Trends and Visualizations                   
 
 
-```{r}
-bkn_games <- game_data %>%
-  mutate(gamedate = as.Date(gamedate)) %>%
-  filter(def_team == "BKN" , season == 2023) %>%
-  mutate(opp_fgm = fg2made + fg3made,
-         opp_fga = fg2attempted + fg3attempted,
-         opponent_efg_pct = (opp_fgm + 0.5 * fg3made) / opp_fga)
-
-#Overall defensive eFG%
-bkn_def_efg <- mean(bkn_games$opponent_efg_pct, na.rm = TRUE)
-
-#Add B2B info 
-opp_b2b <- schedule %>%
-  mutate(gamedate = as.Date(gamedate)) %>%
-  filter(season == 2023) %>%
-  arrange(team, gamedate) %>%
-  group_by(team) %>%
-  mutate(prev_game = lag(gamedate), b2b = (gamedate - prev_game == 1)) %>%
-  ungroup() %>%
-  select(team, gamedate, b2b)
-
-bkn_games_b2b <- bkn_games %>%
-left_join(opp_b2b %>% select(team, gamedate, b2b), by = c("off_team" = "team", "gamedate" = "gamedate"))
-
-#Defensive eFG% when opponent on B2B
-bkn_def_efg_b2b <- mean(bkn_games_b2b$opponent_efg_pct[bkn_games_b2b$b2b == TRUE], na.rm = TRUE)
-
-#Round 
-round(bkn_def_efg * 100,1)
-round(bkn_def_efg_b2b * 100, 1)
-
-```
-
-<span style="color:red">**ANSWER 5:**</span>    
-
-- BKN Defensive eFG%: 54.5%   
-- When opponent on a B2B: 53.6%    
-
-## Part 2 -- Trends and Visualizations                   
-
-
-
-This is an intentionally open ended section, and there are multiple approaches you could take to have a successful project. Feel free to be creative. However, for this section, please consider only the density of games and travel schedule, not the relative on-court strength of different teams.    
-
-### Question 6   
-
-**QUESTION:** Please identify at least 2 trends in scheduling over time. In other words, how are the more recent schedules different from the schedules of the past? Please include a visual (plot or styled table) highlighting or explaining each trend and include a brief written description of your findings.  
+#Locate Trends
 
 
 ```{r}
@@ -320,8 +211,7 @@ ggplot(road_trip_trend, aes(x = season, y = avg_3plus_road_trips)) +
   scale_y_continuous(limits = c(0,10)) #Widen scale
 
 ```
-
-<span style="color:red">**ANSWER 6:**</span>  
+ 
 
 From 2014-15 to 2023-24, the average number of back to back games per team has steadily declined. On average teams were player around 18 to 19 back to back per season in early years, but that number has dropped to around 14 in recent years. It seems the league reduced the amount of back to backs played each year. This can help reduce schedule congestion and prioritize player health.
 
@@ -329,9 +219,8 @@ Looking at road stretches with 3 or more games, the trend has been relatively st
 
 ### Question 7    
 
-**QUESTION:** Please design a plotting tool to help visualize a team’s schedule for a season. The plot should cover the whole season and should help the viewer contextualize and understand a team’s schedule, potentially highlighting periods of excessive travel, dense blocks of games, or other schedule anomalies. If you can, making the plots interactive (for example through the plotly package) is a bonus.   
+#Visualizations
 
-Please use this tool to plot OKC and DEN's provided 80-game 2024-25 schedules.
 ```{r}
 library(plotly)
 
@@ -393,26 +282,21 @@ gp <- ggplotly(p, tooltip = "text") %>%
 gp
 
 ```
+ 
 
-<span style="color:red">**ANSWER 7:**</span>    
+#Locate the best and worst part of OKC’s 2024-25 draft schedule.
 
-### Question 8    
-
-**QUESTION:** Using your tool, what is the best and worst part of OKC’s 2024-25 draft schedule? Please give your answer as a short brief to members of the front office and coaching staff to set expectations going into the season. You can include context from past schedules.  
-
-<span style="color:red">**ANSWER 8:**</span>    
 
 The best part of OKC's 2024-25 draft schedule is from 03/27/25 to 04/02/25, when the team plays 4 straight home games with no back to back games during the stretch. This gives the opportunity to get valuable rest and gear up for a playoff run. 
 
 The toughest stretch occurs from 02/21 to 03/03, where OKC plays 7 games in 11 days, including two different back to backs Feb(23-24) and Mar(2-3). This period has disruptive travel with 5 away games and the only 2 home games coming on the back end of back to backs. This creates a significant challenge to catch any rhythm or gain any rest. 
 
 ## Part 3 -- Modeling     
+  
 
-### Question 9   
+#Determine Most Hurt and Most Helped by schedule 
 
-**QUESTION:** Please estimate how many more/fewer regular season wins each team has had due to schedule-related factors from 2019-20 though 2023-24. Your final answer should have one number for each team, representing the total number of wins (not per 82, and not a per-season average). You may consider the on-court strength of the scheduled opponents as well as the impact of travel/schedule density. Please include the teams and estimates for the most helped and most hurt in the answer key.    
-
-If you fit a model to help answer this question, please write a paragraph explaining your model, and include a simple model diagnostic (eg a printed summary of a regression, a variable importance plot, etc).    
+    
 
 ```{r}
 sched_feat <- schedule %>%
@@ -484,9 +368,6 @@ most_helped <- slice_tail(team_summary, n = 1)
 most_helped
 most_hurt
 ```
-
-
-<span style="color:red">**ANSWER 9:**</span>    
 
 - Most Helped by Schedule: MIL (260 wins)     
 - Most Hurt by Schedule: DET (94 wins)     
