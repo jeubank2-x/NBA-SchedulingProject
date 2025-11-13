@@ -37,7 +37,7 @@ margin-right: auto;
 
 ```{r logo, echo = FALSE}
 
-htmltools::img(src = 'https://cdn.nba.com/logos/nba/1610612760/primary/L/logo.svg',
+htmltools::img(src = 'https://upload.wikimedia.org/wikipedia/en/0/03/National_Basketball_Association_logo.svg',
                 height = '250px',
                 alt = 'logo',
                 style = 'position: fixed; top: -40px; left: 5px;')
